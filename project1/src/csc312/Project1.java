@@ -4,6 +4,7 @@ package csc312;
     -find in a grid of 5 x 5 of letters, if there is a word from the list of given words present in that grid.
     -the words can be in column or in a row, not in diagonal or in reverse
     -the words are case sensitive and all are composed of 3 letters
+    
     -there is only one word per grid to be found
     -there are 3 games to complete
     -your implementation must be optimized, to do the least access to the system to check which letter are in each position

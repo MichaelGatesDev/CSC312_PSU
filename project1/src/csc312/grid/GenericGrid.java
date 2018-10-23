@@ -1,9 +1,16 @@
 package csc312.grid;
 
-public class ObjectGrid extends GridBase
+public class GenericGrid extends GridBase
 {
-    public ObjectGrid(int columns, int rows)
+    public GenericGrid(int columns, int rows)
     {
         super(columns, rows);
+    }
+    
+    
+    @Override
+    public Object[] getContentsOf(GridDirection gridDirection, int num)
+    {
+        return null;
     }
 }

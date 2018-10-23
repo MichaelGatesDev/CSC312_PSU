@@ -1,6 +1,6 @@
 package csc312.grid;
 
-public enum GridSearchMode
+public enum GridDirection
 {
     HORIZONTAL,
     VERTICAL
