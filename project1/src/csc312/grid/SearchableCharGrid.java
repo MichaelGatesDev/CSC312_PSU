@@ -42,10 +42,33 @@ public class SearchableCharGrid extends CharGrid implements GridSearchable<Strin
     }
     
     
-    public boolean matchExists(String s, GridDirection direction)
+    @Override
+    public boolean matchExists(String s)
     {
-        //TODO optimize searching
+        return this.find(s) != null;
+    }
+    
+    
+    @Override
+    public boolean matchExists(String s, GridDirection gd)
+    {
+        return this.find(s, gd) != null;
+    }
+    
+    
+    public GridMatch find(String word)
+    {
+        GridMatch h = find(word, GridDirection.HORIZONTAL);
+        GridMatch v = find(word, GridDirection.VERTICAL);
+        return h != null ? h : v;
+    }
+    
+    
+    private GridMatch find(String word, GridDirection direction)
+    {
+        GridMatch match = null;
         
+        //TODO optimize searching
         // ----------------------------------------------------------------------------------------------------------
         //
         // X X X X X
@@ -78,38 +101,31 @@ public class SearchableCharGrid extends CharGrid implements GridSearchable<Strin
                 sb.append(c.charValue());
             }
             String str = sb.toString();
+            
             // if word exists in the row
-            if (str.contains(s))
+            if (str.contains(word))
             {
                 //
                 int col;
                 int row;
+                int startPos = str.indexOf(word);
+                int endPos = startPos + word.length() - 1;
                 if (h)
                 {
                     row = i;
-                    System.out.println("Word found is in row " + i);
+                    match = new GridMatch(word, new GridPosition(startPos, row), new GridPosition(endPos, row));
+
+//                    System.out.println(String.format("\"%s\" found in row %d (%s) starting at pos %d and ending at pos %d", word, row, str, startPos, endPos));
                 }
                 else
                 {
-                    System.out.println("Word found is in col " + i);
+                    col = i;
+                    match = new GridMatch(word, new GridPosition(col, startPos), new GridPosition(col, endPos));
+
+//                    System.out.println(String.format("\"%s\" found in row %d (%s) starting at pos %d and ending at pos %d", word, row, str, startPos, endPos));
                 }
-//                GridMatch gm = new GridMatch(str, new GridPosition(col, row));
-                return true;
             }
         }
-        return false;
-    }
-    
-    
-    public boolean matchExists(String s)
-    {
-        return this.matchExists(s, GridDirection.HORIZONTAL) || this.matchExists(s, GridDirection.VERTICAL);
-    }
-    
-    
-    public GridMatch find(String word)
-    {
-        GridMatch gm = new GridMatch(word, new GridPosition(0, 0), new GridPosition(0, 0));
-        return gm;
+        return match;
     }
 }

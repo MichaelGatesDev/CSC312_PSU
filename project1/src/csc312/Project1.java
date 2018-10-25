@@ -43,8 +43,9 @@ public class Project1
         List<Game> games = new ArrayList<>();
         for (int i = 0; i < Settings.TOTAL_GAMES; i++)
         {
+            System.out.println("Downloading game #" + (i + 1));
             games.add(new Game(i+1, Downloader.downloadGrid(i + 1)));
-            System.out.println("Added game #" + (i + 1));
+            System.out.println("Downloaded game #" + (i + 1));
         }
         
         System.out.println("Downloading words...");

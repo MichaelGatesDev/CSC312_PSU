@@ -55,10 +55,4 @@ public class Game
         }
         return result;
     }
-    
-    
-    int getNum()
-    {
-        return num;
-    }
 }
