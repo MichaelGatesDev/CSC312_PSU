@@ -56,7 +56,7 @@ public class SearchableCharGrid extends CharGrid implements GridSearchable<Strin
         // Starting from the center may be the best because you can search up up, down down, left left, right right.
         // Requires searching for a word backwards
         //
-        //   1 2 3 4 5
+        //   A B C D E
         // 1 X X X N N
         // 2 X X X N N
         // 3 X X X N N
