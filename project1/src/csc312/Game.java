@@ -24,7 +24,7 @@ class Game
         GameResult result = new GameResult(num);
         for (String word : words)
         {
-            GridMatch gm = this.grid.find(CharUtils.toCharacterArray(word));
+            GridMatch<Character> gm = this.grid.find(CharUtils.toCharacterArray(word));
             if (gm != null)
             {
                 result.setMatch(gm);
