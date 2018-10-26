@@ -7,7 +7,7 @@ import csc312.utils.StringUtils;
  * <p>Represents a grid structure made up of characters with columns and rows.</p>
  * <p>The area of the grid is {@link #columns} * {@link #rows}</p>
  **/
-public class CharGrid extends GridBase
+public class CharGrid extends GridBase<Character>
 {
     public CharGrid(int columns, int rows, Character[][] contents)
     {
