@@ -2,7 +2,7 @@ package csc312.grid.searchable;
 
 import csc312.grid.GridDirection;
 
-public interface GridSearchable<T>
+interface GridSearchable<T>
 {
     /**
      * Searches for specific criteria within a {@link csc312.grid.GridBase}

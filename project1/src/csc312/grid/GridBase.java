@@ -20,7 +20,7 @@ public abstract class GridBase<T>
      * @param columns The number of columns the grid has
      * @param rows    The number of rows the grid has
      */
-    public GridBase(Class<T> type, int columns, int rows)
+    protected GridBase(Class<T> type, int columns, int rows)
     {
         // Use Array native method to create array
         // of a type only known at run time
@@ -39,7 +39,7 @@ public abstract class GridBase<T>
      * @param rows     The number of rows the grid has
      * @param contents The contents contained within the grid
      */
-    public GridBase(Class<T> type, int columns, int rows, T[][] contents)
+    protected GridBase(Class<T> type, int columns, int rows, T[][] contents)
     {
         this.type = type;
         this.columns = columns;

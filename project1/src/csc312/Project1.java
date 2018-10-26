@@ -34,7 +34,7 @@ import csc312.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Project1
+class Project1
 {
     
     public static void main(String[] args)

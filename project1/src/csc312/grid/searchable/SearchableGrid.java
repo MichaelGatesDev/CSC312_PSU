@@ -13,7 +13,7 @@ public abstract class SearchableGrid<T> extends GridBase<T> implements GridSearc
      * @param columns The number of columns the grid has
      * @param rows    The number of rows the grid has
      */
-    public SearchableGrid(Class<T> type, int columns, int rows)
+    SearchableGrid(Class<T> type, int columns, int rows)
     {
         super(type, columns, rows);
     }
@@ -25,7 +25,7 @@ public abstract class SearchableGrid<T> extends GridBase<T> implements GridSearc
      * @param rows     The number of rows the grid has
      * @param contents The contents contained within the grid
      */
-    public SearchableGrid(Class<T> type, int columns, int rows, T[][] contents)
+    SearchableGrid(Class<T> type, int columns, int rows, T[][] contents)
     {
         super(type, columns, rows, contents);
     }
@@ -50,7 +50,7 @@ public abstract class SearchableGrid<T> extends GridBase<T> implements GridSearc
      *
      * @return Returns a {@link GridMatch}
      */
-    public GridMatch<T> find(T[] criterion, GridSearchStyle gss)
+    private GridMatch<T> find(T[] criterion, GridSearchStyle gss)
     {
         GridMatch<T> h = find(criterion, GridDirection.HORIZONTAL, gss);
         GridMatch<T> v = find(criterion, GridDirection.VERTICAL, gss);
@@ -65,7 +65,7 @@ public abstract class SearchableGrid<T> extends GridBase<T> implements GridSearc
      *
      * @return Returns a {@link GridMatch}
      */
-    public abstract GridMatch<T> find(T[] criterion, GridDirection direction, GridSearchStyle gss);
+    protected abstract GridMatch<T> find(T[] criterion, GridDirection direction, GridSearchStyle gss);
     
     
     @Override
