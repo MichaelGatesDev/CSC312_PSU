@@ -34,7 +34,7 @@ public abstract class SearchableGrid<T> extends GridBase<T> implements GridSearc
     /**
      * @param criterion The linked criterion to search for
      *
-     * @return
+     * @return Returns a {@link GridMatch}
      */
     public GridMatch<T> find(T[] criterion)
     {
@@ -48,7 +48,7 @@ public abstract class SearchableGrid<T> extends GridBase<T> implements GridSearc
      * @param criterion The linked criterion to search for
      * @param gss       The style (method) to use when searching
      *
-     * @return
+     * @return Returns a {@link GridMatch}
      */
     public GridMatch<T> find(T[] criterion, GridSearchStyle gss)
     {
@@ -63,7 +63,7 @@ public abstract class SearchableGrid<T> extends GridBase<T> implements GridSearc
      * @param direction The direction to perform the search in
      * @param gss       The style (method) to use when searching
      *
-     * @return
+     * @return Returns a {@link GridMatch}
      */
     public abstract GridMatch<T> find(T[] criterion, GridDirection direction, GridSearchStyle gss);
     
