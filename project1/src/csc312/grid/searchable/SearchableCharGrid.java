@@ -1,72 +1,58 @@
-package csc312.grid;
+package csc312.grid.searchable;
 
-public class SearchableCharGrid extends CharGrid implements GridSearchable<String>
+import csc312.grid.GridDirection;
+import csc312.grid.GridPosition;
+import csc312.utils.CharUtils;
+import csc312.utils.StringUtils;
+
+public class SearchableCharGrid extends SearchableGrid<Character>
 {
-    public class GridMatch
+    /**
+     * @param columns The number of columns the grid has
+     * @param rows    The number of rows the grid has
+     */
+    public SearchableCharGrid(int columns, int rows)
     {
-        private String       word;
-        private GridPosition start;
-        private GridPosition end;
-        
-        
-        public GridMatch(String word, GridPosition start, GridPosition end)
-        {
-            this.word = word;
-            this.start = start;
-            this.end = end;
-        }
-        
-        
-        public String getWord()
-        {
-            return word;
-        }
-        
-        
-        public GridPosition getStart()
-        {
-            return start;
-        }
-        
-        
-        public GridPosition getEnd()
-        {
-            return end;
-        }
+        super(Character.class, columns, rows);
     }
     
     
+    /**
+     * @param columns  The number of columns the grid has
+     * @param rows     The number of rows the grid has
+     * @param contents The contents contained within the grid
+     */
     public SearchableCharGrid(int columns, int rows, Character[][] contents)
     {
-        super(columns, rows, contents);
+        super(Character.class, columns, rows, contents);
     }
     
     
     @Override
-    public boolean matchExists(String s)
+    public GridMatch<Character> find(Character[] criteria, GridDirection direction, GridSearchStyle gss)
     {
-        return this.find(s) != null;
+        long start = System.currentTimeMillis();
+        GridMatch<Character> gm = null;
+        switch (gss)
+        {
+            case CORNER_TO_CORNER:
+                gm = doCornerToCorner(StringUtils.toString(criteria), direction);
+                break;
+            case CENTER_SPREAD:
+                break;
+        }
+        long finish = System.currentTimeMillis();
+        if (gm != null)
+        {
+            gm.setTimeInMillis(finish - start);
+        }
+        return gm;
     }
     
     
-    @Override
-    public boolean matchExists(String s, GridDirection gd)
+    private GridMatch<Character> doCornerToCorner(String word, GridDirection direction)
     {
-        return this.find(s, gd) != null;
-    }
-    
-    
-    public GridMatch find(String word)
-    {
-        GridMatch h = find(word, GridDirection.HORIZONTAL);
-        GridMatch v = find(word, GridDirection.VERTICAL);
-        return h != null ? h : v;
-    }
-    
-    
-    private GridMatch find(String word, GridDirection direction)
-    {
-        GridMatch match = null;
+        GridMatch<Character> match = null;
         
         //TODO optimize searching
         // ----------------------------------------------------------------------------------------------------------
@@ -113,19 +99,25 @@ public class SearchableCharGrid extends CharGrid implements GridSearchable<Strin
                 if (h)
                 {
                     row = i;
-                    match = new GridMatch(word, new GridPosition(startPos, row), new GridPosition(endPos, row));
+                    match = new GridMatch<>(CharUtils.toCharacterArray(word), new GridPosition(startPos, row), new GridPosition(endPos, row));
 
 //                    System.out.println(String.format("\"%s\" found in row %d (%s) starting at pos %d and ending at pos %d", word, row, str, startPos, endPos));
                 }
                 else
                 {
                     col = i;
-                    match = new GridMatch(word, new GridPosition(col, startPos), new GridPosition(col, endPos));
+                    match = new GridMatch<>(CharUtils.toCharacterArray(word), new GridPosition(col, startPos), new GridPosition(col, endPos));
 
 //                    System.out.println(String.format("\"%s\" found in row %d (%s) starting at pos %d and ending at pos %d", word, row, str, startPos, endPos));
                 }
             }
         }
         return match;
+    }
+    
+    
+    public String getContentsOfAsString(GridDirection gridDirection, int num)
+    {
+        return StringUtils.toString(getContentsOf(gridDirection, num));
     }
 }

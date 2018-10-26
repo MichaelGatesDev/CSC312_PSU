@@ -1,7 +1,7 @@
 package csc312.utils;
 
 import csc312.Settings;
-import csc312.grid.SearchableCharGrid;
+import csc312.grid.searchable.SearchableCharGrid;
 
 import java.io.IOException;
 import java.io.InputStream;

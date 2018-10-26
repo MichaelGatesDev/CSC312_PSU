@@ -1,36 +1,50 @@
 package csc312.grid;
 
 
+import java.lang.reflect.Array;
+
 /**
  * <p>Represents a grid structure with columns and rows.</p>
  * <p>The area of the grid is {@link #columns} * {@link #rows}</p>
  **/
 public abstract class GridBase<T>
 {
-    private int   columns;
-    private int   rows;
-    private T[][] contents;
+    private final Class<T> type;
+    private       int      columns;
+    private       int      rows;
+    private       T[][]    contents;
     
     
     /**
-     * @param columns The number of columns
-     * @param rows    The number of rows
+     * @param type    The type of the contents contained within the grid
+     * @param columns The number of columns the grid has
+     * @param rows    The number of rows the grid has
      */
-    protected GridBase(int columns, int rows)
+    public GridBase(Class<T> type, int columns, int rows)
     {
+        // Use Array native method to create array
+        // of a type only known at run time
+        // https://stackoverflow.com/a/18111163/1925638
+        @SuppressWarnings("unchecked") final T[][] a = (T[][]) Array.newInstance(type, columns, rows);
+        this.type = type;
+        this.contents = a;
         this.columns = columns;
         this.rows = rows;
     }
     
     
     /**
-     * Sets the contents of the grid
-     *
-     * @param objects The contents to set into the grid
+     * @param type     The type of the contents contained within the grid
+     * @param columns  The number of columns the grid has
+     * @param rows     The number of rows the grid has
+     * @param contents The contents contained within the grid
      */
-    void setContents(T[][] objects)
+    public GridBase(Class<T> type, int columns, int rows, T[][] contents)
     {
-        this.contents = objects;
+        this.type = type;
+        this.columns = columns;
+        this.rows = rows;
+        this.contents = contents;
     }
     
     
@@ -55,7 +69,7 @@ public abstract class GridBase<T>
     /**
      * @return All of the contents in the grid
      */
-    T[][] getContents()
+    public T[][] getContents()
     {
         return contents;
     }
@@ -68,4 +82,13 @@ public abstract class GridBase<T>
      * @return The contents of a grid in a certain row or column
      */
     public abstract T[] getContentsOf(GridDirection gridDirection, int num);
+    
+    
+    /**
+     * @return The type of the contents contained within the grid
+     */
+    protected Class<T> getType()
+    {
+        return type;
+    }
 }

@@ -1,35 +1,13 @@
 package csc312;
 
-import csc312.grid.SearchableCharGrid;
+import csc312.grid.searchable.GridMatch;
+import csc312.grid.searchable.SearchableCharGrid;
+import csc312.utils.CharUtils;
 
 import java.util.List;
 
-public class Game
+class Game
 {
-    // The output should be : game<1-3> word:<word found> location:<beginning-end>
-    public class GameResult
-    {
-        private SearchableCharGrid.GridMatch gridMatch;
-        
-        
-        GameResult()
-        {
-        }
-        
-        
-        void setMatch(SearchableCharGrid.GridMatch gridMatch)
-        {
-            this.gridMatch = gridMatch;
-        }
-        
-        
-        @Override
-        public String toString()
-        {
-            return "game: " + num + " word: " + this.gridMatch.getWord() + " location: " + this.gridMatch.getStart().toGameString() + ":" + this.gridMatch.getEnd().toGameString();
-        }
-    }
-    
     private int                num;
     private SearchableCharGrid grid;
     
@@ -43,10 +21,10 @@ public class Game
     
     GameResult getResult(List<String> words)
     {
-        GameResult result = new GameResult();
+        GameResult result = new GameResult(num);
         for (String word : words)
         {
-            SearchableCharGrid.GridMatch gm = this.grid.find(word);
+            GridMatch gm = this.grid.find(CharUtils.toCharacterArray(word));
             if (gm != null)
             {
                 result.setMatch(gm);

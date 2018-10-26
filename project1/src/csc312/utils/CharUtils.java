@@ -15,4 +15,10 @@ public class CharUtils
         }
         return ALPHABET[n];
     }
+    
+    
+    public static Character[] toCharacterArray(String s)
+    {
+        return s.chars().mapToObj(c -> (char) c).toArray(Character[]::new);
+    }
 }

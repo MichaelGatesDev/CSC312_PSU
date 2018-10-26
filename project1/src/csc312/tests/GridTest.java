@@ -1,11 +1,16 @@
 package csc312.tests;
 
-import csc312.grid.CharGrid;
 import csc312.grid.GridDirection;
-import csc312.grid.SearchableCharGrid;
+import csc312.grid.GridPosition;
+import csc312.grid.searchable.GridMatch;
+import csc312.grid.searchable.SearchableCharGrid;
+import csc312.utils.CharUtils;
 import csc312.utils.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class GridTest
 {
@@ -42,7 +47,7 @@ public class GridTest
         
         Character[] afkpu = new Character[]{ 'A', 'F', 'K', 'P', 'U' };
         
-        CharGrid g = new CharGrid(5, 5, new Character[][]
+        SearchableCharGrid g = new SearchableCharGrid(5, 5, new Character[][]
                 {
                         abcde,
                         fghij,
@@ -83,10 +88,10 @@ public class GridTest
                         uvwxy,
                 });
         
-        Assert.assertTrue(g.matchExists("ABCDE")); // forward horizontal
-        Assert.assertTrue(g.matchExists("AFKPU")); // forward vertical
-        Assert.assertFalse(g.matchExists("AGMSY")); // diagonal
-        Assert.assertFalse(g.matchExists("EDCBA")); // backwards
+        Assert.assertTrue(g.matchExists(CharUtils.toCharacterArray("ABCDE"))); // forward horizontal
+        Assert.assertTrue(g.matchExists(CharUtils.toCharacterArray("AFKPU"))); // forward vertical
+        Assert.assertFalse(g.matchExists(CharUtils.toCharacterArray("AGMSY"))); // diagonal
+        Assert.assertFalse(g.matchExists(CharUtils.toCharacterArray("EDCBA"))); // backwards
     }
     
     
@@ -115,10 +120,42 @@ public class GridTest
                         e,
                 });
         
-        Assert.assertTrue(g.matchExists("jar")); // forward horizontal, pass
-        Assert.assertFalse(g.matchExists("JAR")); // uppercase, fail
-        Assert.assertFalse(g.matchExists("Jar")); // camcelcase, fail
-        Assert.assertTrue(g.matchExists("HI")); // forward horizontal, pass
-        Assert.assertFalse(g.matchExists("hi")); // lowercase, fail
+        Assert.assertTrue(g.matchExists(CharUtils.toCharacterArray("jar"))); // forward horizontal, pass
+        Assert.assertFalse(g.matchExists(CharUtils.toCharacterArray("JAR"))); // uppercase, fail
+        Assert.assertFalse(g.matchExists(CharUtils.toCharacterArray("Jar"))); // camcelcase, fail
+        Assert.assertTrue(g.matchExists(CharUtils.toCharacterArray("HI"))); // forward horizontal, pass
+        Assert.assertFalse(g.matchExists(CharUtils.toCharacterArray("hi"))); // lowercase, fail
+    }
+    
+    
+    @Test
+    public void testSearchFromList()
+    {
+        List<String> words = Arrays.asList(
+                "bee",
+                "this",
+                "this",
+                "random",
+                "list",
+                "yes"
+        );
+        SearchableCharGrid g = new SearchableCharGrid(5, 5, new Character[][]
+                {
+                        CharUtils.toCharacterArray("ADeeR"),
+                        CharUtils.toCharacterArray("AzDeF"),
+                        CharUtils.toCharacterArray("AwefJ"),
+                        CharUtils.toCharacterArray("abeeK"),
+                        CharUtils.toCharacterArray("qoeif"),
+                });
+        
+        for (String word : words)
+        {
+            GridMatch<Character> match = g.find(CharUtils.toCharacterArray(word));
+            if (word.equals("bee"))
+            {
+                Assert.assertNotNull(match);
+                Assert.assertEquals(match.getStart(), new GridPosition(1, 3));
+            }
+        }
     }
 }

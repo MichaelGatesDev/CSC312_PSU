@@ -8,7 +8,7 @@ public class GridPosition
     private int row;
     
     
-    GridPosition(int column, int row)
+    public GridPosition(int column, int row)
     {
         this.column = column;
         this.row = row;
@@ -18,7 +18,22 @@ public class GridPosition
     @Override
     public String toString()
     {
-        return column + "" + row;
+        return "GridPosition{" +
+                "column=" + column +
+                ", row=" + row +
+                '}';
+    }
+    
+    
+    @Override
+    public boolean equals(Object o)
+    {
+        if (!(o instanceof GridPosition))
+        {
+            return false;
+        }
+        GridPosition gp = (GridPosition) o;
+        return gp.row == this.row && gp.column == this.column;
     }
     
     
