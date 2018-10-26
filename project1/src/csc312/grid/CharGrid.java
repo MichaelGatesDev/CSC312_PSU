@@ -24,7 +24,7 @@ public class CharGrid extends GridBase<Character>
         // traverse horizontally or vertically
         for (int j = 0; j < (h ? this.getColumns() : this.getRows()); j++)
         {
-            Character obj = (Character) this.getContents()[(h ? num : j)][(h ? j : num)];
+            Character obj = this.getContents()[(h ? num : j)][(h ? j : num)];
             found[j] = obj;
         }
         return found;
