@@ -9,10 +9,10 @@ import java.util.Arrays;
  */
 public class GridMatch<T>
 {
-    private T[]          match;
-    private GridPosition start;
-    private GridPosition end;
-    private long         timeInMillis = -1L;
+    private final T[]          match;
+    private final GridPosition start;
+    private final GridPosition end;
+    private       long         timeInMillis = -1L;
     
     
     /**

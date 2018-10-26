@@ -4,8 +4,8 @@ import csc312.utils.CharUtils;
 
 public class GridPosition
 {
-    private int column;
-    private int row;
+    private final int column;
+    private final int row;
     
     
     public GridPosition(int column, int row)

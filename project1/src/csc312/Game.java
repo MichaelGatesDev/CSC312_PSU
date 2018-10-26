@@ -8,8 +8,8 @@ import java.util.List;
 
 class Game
 {
-    private int                num;
-    private SearchableCharGrid grid;
+    private final int                num;
+    private final SearchableCharGrid grid;
     
     
     Game(int num, SearchableCharGrid grid)

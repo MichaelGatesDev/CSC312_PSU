@@ -10,9 +10,9 @@ import java.lang.reflect.Array;
 public abstract class GridBase<T>
 {
     private final Class<T> type;
-    private       int      columns;
-    private       int      rows;
-    private       T[][]    contents;
+    private final int      columns;
+    private final int      rows;
+    private final T[][]    contents;
     
     
     /**
