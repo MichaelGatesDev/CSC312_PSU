@@ -8,12 +8,12 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Downloader
+public class DownloaderOld
 {
     private static final String GAME_URL_TEMPLATE = "https://wordfinder-001.appspot.com/wordfinder?game=%d&pos=%c%d";
     
     
-    public static SearchableCharGrid downloadGrid(int gameNum)
+    public static SearchableCharGrid downloadEntireGrid(int gameNum)
     {
         Character[][] contents = new Character[Settings.COLUMNS][Settings.ROWS];
 //        int total = 0;
@@ -46,6 +46,9 @@ public class Downloader
             myURL = new URL(url);
             urlConnection = (HttpURLConnection) myURL.openConnection();
             is = urlConnection.getInputStream();
+            
+            int responseCode = urlConnection.getResponseCode();
+            String msg = urlConnection.getResponseMessage();
             
             int c;
             while ((c = is.read()) != -1)
