@@ -4,7 +4,7 @@ package csc312;
     -find in a grid of 5 x 5 of letters, if there is a word from the list of given words present in that grid.
     -the words can be in column or in a row, not in diagonal or in reverse
     -the words are case sensitive and all are composed of 3 letters
-    - Your program must download the list of words at each execution, as it may change over time. The list of words to search for is accessible thru: https://wordfinder-001.appspot.com/word.txt ; (List of words extracted from: http://wordfinder.yourdictionary.com/letter-words/3)
+    - Your program must downloadContent the list of words at each execution, as it may change over time. The list of words to search for is accessible thru: https://wordfinder-001.appspot.com/word.txt ; (List of words extracted from: http://wordfinder.yourdictionary.com/letter-words/3)
     - The main class must be named: project1.java and be in the package csc312.
     - When you locate a word from the list, you must output its beginning position and its ending position <column><row>:<column><row>.
     - As an example, if you search for jar in this array:
@@ -28,7 +28,7 @@ package csc312;
     If you use pos=Z88, the status code will be SC_FORBIDDEN.
 */
 
-import csc312.utils.Downloader;
+import csc312.utils.DownloaderOld;
 import csc312.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -44,13 +44,13 @@ class Project1
         for (int i = 0; i < Settings.TOTAL_GAMES; i++)
         {
             System.out.println("Downloading game #" + (i + 1));
-            games.add(new Game(i + 1, Downloader.downloadGrid(i + 1)));
+            games.add(new Game(i + 1, DownloaderOld.downloadEntireGrid(i + 1)));
             System.out.println("Downloaded game #" + (i + 1));
         }
         
         // Download the words
         System.out.println("Downloading words...");
-        String rawWords = Downloader.download("https://wordfinder-001.appspot.com/word.txt").toLowerCase().trim();
+        String rawWords = DownloaderOld.download("https://wordfinder-001.appspot.com/word.txt").toLowerCase().trim();
         List<String> words = StringUtils.stringToList(rawWords, "\n");
         System.out.println("Downloaded  " + words.size() + " words");
         

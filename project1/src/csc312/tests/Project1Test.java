@@ -6,13 +6,14 @@ import csc312.grid.searchable.GridMatch;
 import csc312.grid.searchable.SearchableCharGrid;
 import csc312.utils.CharUtils;
 import csc312.utils.StringUtils;
+import csc312.web.WebDownloader;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class GridTest
+public class Project1Test
 {
     @Test
     public void testSize()
@@ -158,4 +159,15 @@ public class GridTest
             }
         }
     }
+    
+    
+    @Test
+    public void testDownloads()
+    {
+        WebDownloader downloader = new WebDownloader();
+        downloader.downloadContent("https://wordfinder-001.appspot.com/wordfinder?game=1&pos=Z99"); // If you use pos=Z99, the status code will be SC_INTERNAL_SERVER_ERROR.
+        
+        
+    }
+    
 }
