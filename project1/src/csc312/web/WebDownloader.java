@@ -91,9 +91,8 @@ public class WebDownloader
     }
     
     
-    public SearchableCharGrid downloadGridFor(int n)
+    public SearchableCharGrid downloadGridFor(int gameNum)
     {
-        
         Character[][] contents = new Character[Settings.COLUMNS][Settings.ROWS];
 //        int total = 0;
         for (int x = 0; x < Settings.ROWS; x++)
@@ -102,7 +101,7 @@ public class WebDownloader
             {
                 final String[] s = new String[1];
                 
-                downloadContent(String.format(GAME_URL_TEMPLATE, n, CharUtils.getPosOfLetterInAlphabet(x), y + 1), result ->
+                downloadContent(String.format(GAME_URL_TEMPLATE, gameNum, CharUtils.getPosOfLetterInAlphabet(x), y + 1), result ->
                         {
                             if (!(result.getValue() instanceof String))
                             {
