@@ -6,6 +6,7 @@ import csc312.grid.searchable.GridMatch;
 import csc312.grid.searchable.SearchableCharGrid;
 import csc312.utils.CharUtils;
 import csc312.utils.StringUtils;
+import csc312.web.WebDownloadResult;
 import csc312.web.WebDownloader;
 import org.junit.Assert;
 import org.junit.Test;
@@ -162,12 +163,48 @@ public class Project1Test
     
     
     @Test
-    public void testDownloads()
+    public void test500()
     {
         WebDownloader downloader = new WebDownloader();
-        downloader.downloadContent("https://wordfinder-001.appspot.com/wordfinder?game=1&pos=Z99"); // If you use pos=Z99, the status code will be SC_INTERNAL_SERVER_ERROR.
         
-        
+        // If you use pos=Z99, the status code will be SC_INTERNAL_SERVER_ERROR.
+        downloader.downloadContent("https://wordfinder-001.appspot.com/wordfinder?game=1&pos=Z99", result ->
+        {
+            WebDownloadResult wdr = result.getResult();
+            Assert.assertEquals(wdr, WebDownloadResult.SC_INTERNAL_ERROR);
+        });
     }
+    
+    
+    @Test
+    public void test403()
+    {
+        WebDownloader downloader = new WebDownloader();
+        
+        // If you use pos=Z88, the status code will be SC_FORBIDDEN.
+        downloader.downloadContent("https://wordfinder-001.appspot.com/wordfinder?game=1&pos=Z88", result ->
+        {
+            WebDownloadResult wdr = result.getResult();
+            Assert.assertEquals(wdr, WebDownloadResult.SC_FORBIDDEN);
+        });
+    }
+    
+    
+    @Test
+    public void testRetries()
+    {
+        WebDownloader downloader = new WebDownloader();
+        
+        int tries = downloader.downloadContent("https://wordfinder-001.appspot.com/wordfinder?game=1&pos=Z99", result ->
+        {
+        }, 5);
+        Assert.assertEquals(5, tries);
+        
+        int triesB = downloader.downloadContent("https://wordfinder-001.appspot.com/wordfinder?game=1&pos=A1", result ->
+        {
+        }, 5);
+        Assert.assertEquals(1, triesB);
+    }
+    
     
 }

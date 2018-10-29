@@ -1,5 +1,9 @@
 package csc312.web;
 
+import csc312.Settings;
+import csc312.grid.searchable.SearchableCharGrid;
+import csc312.utils.CharUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -7,38 +11,24 @@ import java.net.URL;
 
 public class WebDownloader
 {
-    /*
-    The system you are accessing to extract the letter, may produce status code SC_INTERNAL_SERVER_ERROR=500 or SC_FORBIDDEN=403 at random interval, if this happen, you must retry accessing the resource up to 5 times.
+    public static final String GAME_URL_TEMPLATE = "https://wordfinder-001.appspot.com/wordfinder?game=%d&pos=%c%d";
     
-    To test your error handling for  SC_INTERNAL_SERVER_ERROR and  SC_FORBIDDEN, there are specific pos that will generate it all the time:
     
-    If you use pos=Z99, the status code will be SC_INTERNAL_SERVER_ERROR.
-    
-    If you use pos=Z88, the status code will be SC_FORBIDDEN.
-     */
-    public enum WebDownloadResult
+    public int downloadContent(String url, Callback<WebDownload> callback, int attempts)
     {
-        UNKNOWN,
-        SUCCESS,
-        SC_INTERNAL_ERROR,
-        SC_FORBIDDEN
-    }
-    
-    private class WebDownload
-    {
-        WebDownloadResult result;
-        String            content;
-        
-        
-        public WebDownload(WebDownloadResult result, String content)
+        boolean success = false;
+        int n = 0;
+        while (!success && n < attempts)
         {
-            this.result = result;
-            this.content = content;
+//            System.out.println("Download attempt " + n);
+            success = downloadContent(url, callback);
+            n++;
         }
+        return n;
     }
     
     
-    public WebDownload downloadContent(String url)
+    public boolean downloadContent(String url, Callback<WebDownload> callback)
     {
         URL realURL;
         HttpURLConnection urlConnection;
@@ -51,26 +41,38 @@ public class WebDownloader
             is = urlConnection.getInputStream();
             
             int responseCode = urlConnection.getResponseCode();
-            String msg = urlConnection.getResponseMessage();
+//            String msg = urlConnection.getResponseMessage();
             
             switch (responseCode)
             {
+                default:
+                {
+                    int c;
+                    while ((c = is.read()) != -1)
+                    {
+                        output.append((char) c);
+                    }
+//                    System.out.println("SUCCESS for URL " + url);
+                    callback.onComplete(new WebDownload<>(output.toString(), WebDownloadResult.SUCCESS));
+                    return true;
+                }
+                case 403:
+                {
+                    System.out.println("403!");
+                    callback.onComplete(new WebDownload<String>(null, WebDownloadResult.SC_FORBIDDEN));
+                    return false;
+                }
                 case 500:
+                {
                     System.out.println("500!");
-                    return new WebDownload(WebDownloadResult.UNKNOWN, "????");
+                    callback.onComplete(new WebDownload<String>(null, WebDownloadResult.SC_INTERNAL_ERROR));
+                    return false;
+                }
             }
-            
-            
-            int c;
-            while ((c = is.read()) != -1)
-            {
-                output.append((char) c);
-            }
-            return new WebDownload(WebDownloadResult.SUCCESS, output.toString());
         }
-        catch (IOException ioe)
+        catch (IOException ignored)
         {
-            ioe.printStackTrace();
+            return false;
         }
         finally
         {
@@ -86,6 +88,38 @@ public class WebDownloader
                 }
             }
         }
-        return null;
+    }
+    
+    
+    public SearchableCharGrid downloadGridFor(int n)
+    {
+        
+        Character[][] contents = new Character[Settings.COLUMNS][Settings.ROWS];
+//        int total = 0;
+        for (int x = 0; x < Settings.ROWS; x++)
+        {
+            for (int y = 0; y < Settings.COLUMNS; y++)
+            {
+                final String[] s = new String[1];
+                
+                downloadContent(String.format(GAME_URL_TEMPLATE, n, CharUtils.getPosOfLetterInAlphabet(x), y + 1), result ->
+                        {
+                            if (!(result.getValue() instanceof String))
+                            {
+                                return;
+                            }
+                            s[0] = ((String) result.getValue());
+                        }
+                );
+                
+                if (s[0].length() > 0)
+                {
+                    contents[x][y] = s[0].charAt(0);
+                }
+//                System.out.println("Downloaded #" + total + ": " + s);
+//                total++;
+            }
+        }
+        return new SearchableCharGrid(Settings.COLUMNS, Settings.ROWS, contents);
     }
 }
