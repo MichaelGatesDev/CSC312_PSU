@@ -3,12 +3,12 @@ package csc312.grid;
 public enum GridDirection
 {
     /**
-     * TOP->BOTTOM or BOTTOM->TOP
+     * LEFT->RIGHT or RIGHT->LEFT
      */
     HORIZONTAL,
     
     /**
-     * LEFT->RIGHT or RIGHT->LEFT
+     * TOP->BOTTOM or BOTTOM->TOP
      */
     VERTICAL
 }

@@ -1,10 +1,13 @@
 package csc312.grid.searchable;
 
 import csc312.grid.GridDirection;
-import csc312.grid.GridPosition;
+import csc312.grid.GridPosition2D;
 import csc312.utils.CharUtils;
 import csc312.utils.StringUtils;
 
+/**
+ * Represents a grid made up of {@link Character} which can be searched to find matches
+ */
 public class SearchableCharGrid extends SearchableGrid<Character>
 {
     /**
@@ -39,17 +42,27 @@ public class SearchableCharGrid extends SearchableGrid<Character>
                 gm = doCornerToCorner(StringUtils.toString(criteria), direction);
                 break;
             case CENTER_SPREAD:
+                //TODO implement
                 break;
         }
+        
+        // timing for debug
         long finish = System.currentTimeMillis();
         if (gm != null)
         {
             gm.setTimeInMillis(finish - start);
         }
+        
         return gm;
     }
     
     
+    /**
+     * @param word      The word to search for
+     * @param direction The direction to search in
+     *
+     * @return Returns the match
+     */
     private GridMatch<Character> doCornerToCorner(String word, GridDirection direction)
     {
         GridMatch<Character> match = null;
@@ -77,8 +90,9 @@ public class SearchableCharGrid extends SearchableGrid<Character>
         // ----------------------------------------------------------------------------------------------------------
         
         boolean h = direction == GridDirection.HORIZONTAL;
-        for (int i = 0; i < (h ? this.getRows() : this.getColumns()); i++)
+        for (int i = 0; i < (h ? this.getRows() : this.getColumns()); i++) // move column->column or row->row
         {
+            // get the array of contents of the row/column
             Character[] cc = this.getContentsOf(direction, i);
             
             StringBuilder sb = new StringBuilder(cc.length);
@@ -91,7 +105,6 @@ public class SearchableCharGrid extends SearchableGrid<Character>
             // if word exists in the row
             if (str.contains(word))
             {
-                //
                 int col;
                 int row;
                 int startPos = str.indexOf(word);
@@ -99,14 +112,14 @@ public class SearchableCharGrid extends SearchableGrid<Character>
                 if (h)
                 {
                     row = i;
-                    match = new GridMatch<>(CharUtils.toCharacterArray(word), new GridPosition(startPos, row), new GridPosition(endPos, row));
+                    match = new GridMatch<>(CharUtils.toCharacterArray(word), new GridPosition2D(startPos, row), new GridPosition2D(endPos, row));
 
 //                    System.out.println(String.format("\"%s\" found in row %d (%s) starting at pos %d and ending at pos %d", word, row, str, startPos, endPos));
                 }
                 else
                 {
                     col = i;
-                    match = new GridMatch<>(CharUtils.toCharacterArray(word), new GridPosition(col, startPos), new GridPosition(col, endPos));
+                    match = new GridMatch<>(CharUtils.toCharacterArray(word), new GridPosition2D(col, startPos), new GridPosition2D(col, endPos));
 
 //                    System.out.println(String.format("\"%s\" found in row %d (%s) starting at pos %d and ending at pos %d", word, row, str, startPos, endPos));
                 }
@@ -116,6 +129,12 @@ public class SearchableCharGrid extends SearchableGrid<Character>
     }
     
     
+    /**
+     * @param gridDirection The direction to pull contents from
+     * @param num           The index of the row/column
+     *
+     * @return Returns a {@link String} of the concatenated {@link Character} results
+     */
     public String getContentsOfAsString(GridDirection gridDirection, int num)
     {
         return StringUtils.toString(getContentsOf(gridDirection, num));

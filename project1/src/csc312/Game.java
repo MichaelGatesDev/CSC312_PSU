@@ -6,12 +6,19 @@ import csc312.utils.CharUtils;
 
 import java.util.List;
 
+/**
+ * Represents the game as an object
+ */
 class Game
 {
     private final int                num;
     private final SearchableCharGrid grid;
     
     
+    /**
+     * @param num  The number of the game
+     * @param grid The {@link SearchableCharGrid}
+     */
     Game(int num, SearchableCharGrid grid)
     {
         this.num = num;
@@ -19,6 +26,13 @@ class Game
     }
     
     
+    /**
+     * Fetches the result of a game.
+     *
+     * @param words The list of words to search the game for
+     *
+     * @return Returns the game result
+     */
     GameResult getResult(List<String> words)
     {
         GameResult result = new GameResult(num);

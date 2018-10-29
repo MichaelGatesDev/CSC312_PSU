@@ -1,7 +1,7 @@
 package csc312.tests;
 
 import csc312.grid.GridDirection;
-import csc312.grid.GridPosition;
+import csc312.grid.GridPosition2D;
 import csc312.grid.searchable.GridMatch;
 import csc312.grid.searchable.SearchableCharGrid;
 import csc312.utils.CharUtils;
@@ -156,7 +156,7 @@ public class Project1Test
             if (word.equals("bee"))
             {
                 Assert.assertNotNull(match);
-                Assert.assertEquals(match.getStart(), new GridPosition(1, 3));
+                Assert.assertEquals(match.getStart(), new GridPosition2D(1, 3));
             }
         }
     }

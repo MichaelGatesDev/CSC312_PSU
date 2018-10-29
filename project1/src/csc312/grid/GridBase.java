@@ -4,8 +4,8 @@ package csc312.grid;
 import java.lang.reflect.Array;
 
 /**
- * <p>Represents a grid structure with columns and rows.</p>
- * <p>The area of the grid is {@link #columns} * {@link #rows}</p>
+ * Represents a grid structure with columns and rows.
+ * The area of the grid is {@link #columns} * {@link #rows}
  **/
 public abstract class GridBase<T>
 {

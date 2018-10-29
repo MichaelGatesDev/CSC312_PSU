@@ -5,6 +5,13 @@ public class CharUtils
     private static final char[] ALPHABET = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     
     
+    /**
+     * Grabs the letter at the specified position from the alphabet (lowercase)
+     *
+     * @param n The index to use in the alphabet
+     *
+     * @return Returns a lowercase letter at that position or '\0' if none (null)
+     */
     public static char getPosOfLetterInAlphabet(int n)
     {
 //        System.out.println("pos is " + n);
@@ -17,8 +24,15 @@ public class CharUtils
     }
     
     
-    public static Character[] toCharacterArray(String s)
+    /**
+     * Converts a {@link String} to an array of {@link Character}s.
+     *
+     * @param str The string to convert
+     *
+     * @return The new and converted {@link Character} array
+     */
+    public static Character[] toCharacterArray(String str)
     {
-        return s.chars().mapToObj(c -> (char) c).toArray(Character[]::new);
+        return str.chars().mapToObj(c -> (char) c).toArray(Character[]::new);
     }
 }
