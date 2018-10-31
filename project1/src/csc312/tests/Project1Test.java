@@ -6,6 +6,8 @@ import csc312.grid.searchable.GridMatch;
 import csc312.grid.searchable.SearchableCharGrid;
 import csc312.utils.CharUtils;
 import csc312.utils.StringUtils;
+import csc312.web.Callback;
+import csc312.web.WebDownload;
 import csc312.web.WebDownloadResult;
 import csc312.web.WebDownloader;
 import org.junit.Assert;
@@ -167,12 +169,46 @@ public class Project1Test
     {
         WebDownloader downloader = new WebDownloader();
         
-        // If you use pos=Z99, the status code will be SC_INTERNAL_SERVER_ERROR.
-        downloader.downloadContent("https://wordfinder-001.appspot.com/wordfinder?game=1&pos=Z99", result ->
+        Callback<WebDownload> cb = new Callback<WebDownload>()
         {
-            WebDownloadResult wdr = result.getResult();
-            Assert.assertEquals(wdr, WebDownloadResult.SC_INTERNAL_ERROR);
-        });
+            private int attempts = 0;
+            
+            
+            @Override
+            public void setAttempts(int n)
+            {
+                this.attempts = n;
+            }
+            
+            
+            @Override
+            public int getAttempts()
+            {
+                return this.attempts;
+            }
+            
+            
+            @Override
+            public void onComplete(WebDownload result)
+            {
+            }
+            
+            
+            @Override
+            public void onSuccess(WebDownload result)
+            {
+            }
+            
+            
+            @Override
+            public void onFailure(WebDownload result)
+            {
+                WebDownloadResult wdr = result.getResult();
+                Assert.assertEquals(wdr, WebDownloadResult.SC_INTERNAL_ERROR);
+            }
+        };
+        downloader.downloadContent("https://wordfinder-001.appspot.com/wordfinder?game=1&pos=Z99", cb, 5);
+        Assert.assertEquals(5, cb.getAttempts());
     }
     
     
@@ -181,12 +217,46 @@ public class Project1Test
     {
         WebDownloader downloader = new WebDownloader();
         
-        // If you use pos=Z88, the status code will be SC_FORBIDDEN.
-        downloader.downloadContent("https://wordfinder-001.appspot.com/wordfinder?game=1&pos=Z88", result ->
+        Callback<WebDownload> cb = new Callback<WebDownload>()
         {
-            WebDownloadResult wdr = result.getResult();
-            Assert.assertEquals(wdr, WebDownloadResult.SC_FORBIDDEN);
-        });
+            private int attempts = 0;
+            
+            
+            @Override
+            public void setAttempts(int n)
+            {
+                this.attempts = n;
+            }
+            
+            
+            @Override
+            public int getAttempts()
+            {
+                return this.attempts;
+            }
+            
+            
+            @Override
+            public void onComplete(WebDownload result)
+            {
+            }
+            
+            
+            @Override
+            public void onSuccess(WebDownload result)
+            {
+            }
+            
+            
+            @Override
+            public void onFailure(WebDownload result)
+            {
+                WebDownloadResult wdr = result.getResult();
+                Assert.assertEquals(wdr, WebDownloadResult.SC_FORBIDDEN);
+            }
+        };
+        downloader.downloadContent("https://wordfinder-001.appspot.com/wordfinder?game=1&pos=Z88", cb, 5);
+        Assert.assertEquals(5, cb.getAttempts());
     }
     
     
@@ -195,15 +265,83 @@ public class Project1Test
     {
         WebDownloader downloader = new WebDownloader();
         
-        int tries = downloader.downloadContent("https://wordfinder-001.appspot.com/wordfinder?game=1&pos=Z99", result ->
+        Callback<WebDownload> cba = new Callback<WebDownload>()
         {
-        }, 5);
-        Assert.assertEquals(5, tries);
+            private int attempts = 0;
+            
+            
+            @Override
+            public void setAttempts(int n)
+            {
+                this.attempts = n;
+            }
+            
+            
+            @Override
+            public int getAttempts()
+            {
+                return this.attempts;
+            }
+            
+            
+            @Override
+            public void onComplete(WebDownload result)
+            {
+            }
+            
+            
+            @Override
+            public void onSuccess(WebDownload result)
+            {
+            }
+            
+            
+            @Override
+            public void onFailure(WebDownload result)
+            {
+            }
+        };
+        downloader.downloadContent("https://wordfinder-001.appspot.com/wordfinder?game=1&pos=A1", cba, 5);
+        Assert.assertEquals(1, cba.getAttempts());
         
-        int triesB = downloader.downloadContent("https://wordfinder-001.appspot.com/wordfinder?game=1&pos=A1", result ->
+        Callback<WebDownload> cbb = new Callback<WebDownload>()
         {
-        }, 5);
-        Assert.assertEquals(1, triesB);
+            private int attempts = 0;
+            
+            
+            @Override
+            public void setAttempts(int n)
+            {
+                this.attempts = n;
+            }
+            
+            
+            @Override
+            public int getAttempts()
+            {
+                return this.attempts;
+            }
+            
+            
+            @Override
+            public void onComplete(WebDownload result)
+            {
+            }
+            
+            
+            @Override
+            public void onSuccess(WebDownload result)
+            {
+            }
+            
+            
+            @Override
+            public void onFailure(WebDownload result)
+            {
+            }
+        };
+        downloader.downloadContent("https://wordfinder-001.appspot.com/wordfinder?game=1&pos=Z99", cbb, 5);
+        Assert.assertEquals(5, cbb.getAttempts());
     }
     
     

@@ -87,6 +87,18 @@ public class SearchableCharGrid extends SearchableGrid<Character>
         // Horizontal searches can never start from: COL4 or COL5
         // Vertical searches can never start from: ROW4 or ROW5
         //
+        //   A B C D E
+        // 1 X X X N N
+        // 2 X X X N N
+        // 3 X X X N N
+        // 4 N N N N N
+        // 5 N N N N N
+        // Horizontal searches can never start from: COL4 or COL5
+        // Vertical searches can never start from: ROW4 or ROW5
+        // @ = 1,2,3
+        // # = 2,3
+        // $ = 3
+        //
         // ----------------------------------------------------------------------------------------------------------
         
         boolean h = direction == GridDirection.HORIZONTAL;
