@@ -7,11 +7,10 @@ import main.java.csc312.countdowns.CountdownTask;
 import java.text.MessageFormat;
 import java.util.Timer;
 
-public class TimedContest implements Contest
+public class TimedContest extends ContestBase
 {
-    private long    totalTimeInSecs;
-    private boolean inProgress;
-    private Timer   timer;
+    private long  totalTimeInSecs;
+    private Timer timer;
     
     
     public TimedContest(int totalTime)
@@ -25,15 +24,16 @@ public class TimedContest implements Contest
         if (timer != null)
         {
             timer.cancel();
-            System.out.println("Cancelled");
+            this.timer = null;
         }
+        this.onFinish();
     }
     
     
     @Override
     public void onStart()
     {
-        System.out.println("Creating timer for game");
+//        System.out.println("Creating timer for game");
         timer = new Timer();
         timer.scheduleAtFixedRate(new CountdownTask(new CountdownCallback()
         {
@@ -64,14 +64,8 @@ public class TimedContest implements Contest
     @Override
     public void onFinish()
     {
-        this.inProgress = false;
-    }
-    
-    
-    @Override
-    public boolean inProgress()
-    {
-        return this.inProgress;
+        this.setInProgress(false);
+        this.setValid(true);
     }
     
     

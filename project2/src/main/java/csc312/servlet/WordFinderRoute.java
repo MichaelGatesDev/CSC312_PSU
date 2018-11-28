@@ -1,6 +1,7 @@
 package main.java.csc312.servlet;
 
 import main.java.csc312.GameManager;
+import main.java.csc312.WebUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
+@SuppressWarnings("Duplicates")
 public class WordFinderRoute extends HttpServlet
 {
     /*
@@ -18,30 +20,14 @@ public class WordFinderRoute extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        int contest;
-        try
-        {
-            contest = Integer.parseInt(req.getParameter("contest"));
-        }
-        catch (NumberFormatException ignored)
-        {
-            contest = -1;
-        }
+        int contest = WebUtils.getIntParamChecked(req, "contest");
         if (contest == -1 || !GameManager.getInstance().isIDInUse(contest))
         {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
         
-        int game;
-        try
-        {
-            game = Integer.parseInt(req.getParameter("game"));
-        }
-        catch (NumberFormatException ignored)
-        {
-            game = -1;
-        }
+        int game = WebUtils.getIntParamChecked(req, "game");
         if (game < GameManager.MIN_GAME || game > GameManager.MAX_GAME)
         {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

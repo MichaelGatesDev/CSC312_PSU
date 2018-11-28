@@ -4,7 +4,5 @@ public interface Contest
 {
     void onStart();
     
-    boolean inProgress();
-    
     void onFinish();
 }

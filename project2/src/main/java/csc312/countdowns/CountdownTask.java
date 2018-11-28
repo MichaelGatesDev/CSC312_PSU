@@ -43,16 +43,19 @@ public class CountdownTask extends TimerTask
     @Override
     public void run()
     {
+        // begin
         if (this.remainingTime == this.totalTime)
         {
             this.countdownCallback.onBegin();
         }
+        // end
         if (this.remainingTime <= this.minTime)
         {
             this.countdownCallback.onComplete();
             this.cancel();
             return;
         }
+        // tick
         remainingTime--;
         countdownCallback.onTick(remainingTime);
     }

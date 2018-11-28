@@ -1,6 +1,6 @@
 package main.java.csc312;
 
-import main.java.csc312.contests.Contest;
+import main.java.csc312.contests.ContestBase;
 import main.java.csc312.contests.TimedContest;
 
 import java.text.MessageFormat;
@@ -15,9 +15,9 @@ public class GameManager
     public static final int MIN_GAME   = 1;
     public static final int MAX_GAME   = 3;
     
-    private Map<Integer, Contest> currentGames;
-    private int                   currentID;
-    private TimedContest          currentGame;
+    private Map<Integer, ContestBase> currentGames;
+    private int                       currentID;
+    private TimedContest              currentGame;
     
     
     GameManager()
@@ -61,16 +61,6 @@ public class GameManager
     }
     
     
-    public boolean isGameRunning(int id)
-    {
-        if (!isIDInUse(id))
-        {
-            return false;
-        }
-        return currentGames.get(id).inProgress();
-    }
-    
-    
     public boolean isIDInUse(int n)
     {
         return this.currentGames.containsKey(n);
@@ -83,7 +73,7 @@ public class GameManager
     }
     
     
-    public Contest getCurrentGame()
+    public ContestBase getCurrentGame()
     {
         return this.currentGames.get(this.currentID);
     }
