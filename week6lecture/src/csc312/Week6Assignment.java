@@ -12,6 +12,7 @@ package csc312;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @AuthorshipInformation(author = "John Smith", course = "CSC312")
@@ -25,12 +26,7 @@ public class Week6Assignment
     //
     public String[] tokenizeUsingStream(char charArray[])
     {
-        // Instructions are unclear, this is the best I could do with your instructions.
-        // It is redundant but for the sake of the assignment it fulfills the instructions
-        Stream<Character> stream = new String(charArray).chars().mapToObj(i -> (char) i);
-        StringBuilder sb = new StringBuilder();
-        stream.forEach(sb::append);
-        return sb.toString().split("\n");
+        return Stream.of(charArray).map(String::new).collect(Collectors.joining()).split("\n");
     }
     
     
