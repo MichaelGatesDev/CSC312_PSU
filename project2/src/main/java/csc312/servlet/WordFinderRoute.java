@@ -1,5 +1,6 @@
 package main.java.csc312.servlet;
 
+import main.java.csc312.Challenge;
 import main.java.csc312.GameManager;
 import main.java.csc312.WebUtils;
 
@@ -13,6 +14,9 @@ import java.io.IOException;
 @SuppressWarnings("Duplicates")
 public class WordFinderRoute extends HttpServlet
 {
+    private static final char[] COLUMNS = { 'A', 'B', 'C', 'D', 'E' };
+    
+    
     /*
     http://localhost:8080/wordfinder?contest=<contest id>&game=<1 to 3>&pos=<column><row>
     http://localhost:8080/wordfinder?contest=822&game=1&pos=A1
@@ -45,15 +49,42 @@ public class WordFinderRoute extends HttpServlet
         char col = rawPos.charAt(0);
         int row = Integer.parseInt(rawPos.charAt(1) + "");
         
+        int colEquiv = getColEquiv(col);
+        if (colEquiv < 1 || row < 1 || colEquiv > 5 || row > 5)
+        {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
         
         resp.setStatus(HttpServletResponse.SC_OK);
         
         ServletOutputStream out = resp.getOutputStream();
+
+//        System.out.println("Contest: " + game + " | Game: " + game + " | Column: " + col + " | Row: " + row);
         
-        System.out.println("Contest: " + game + " | Game: " + game + " | Column: " + col + " | Row: " + row);
-        out.write(("Contest: " + game + " | Game: " + game + " | Column: " + col + " | Row: " + row).getBytes());
+        Challenge challenge = GameManager.getInstance().getChallenge(game);
+        if (challenge == null)
+        {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+        
+        out.write((challenge.getGrid()[colEquiv - 1][row - 1] + "").getBytes());
         out.flush();
         out.close();
         
+    }
+    
+    
+    private int getColEquiv(char c)
+    {
+        for (int i = 0; i < COLUMNS.length; i++)
+        {
+            if (COLUMNS[i] == c)
+            {
+                return i + 1;
+            }
+        }
+        return -1;
     }
 }

@@ -20,10 +20,41 @@ public class GameManager
     private TimedContest              currentGame;
     
     
+    private Map<Integer, Challenge> challenges;
+    
+    
     GameManager()
     {
         instance = this;
         this.currentGames = new HashMap<>();
+        
+        
+        challenges = new HashMap<>();
+        challenges.put(1, new Challenge(new char[][]{
+                        { 'z', 'B', 'C', 'D', 'a' },
+                        { 'a', 'b', 'B', 'b', 'E' },
+                        { 'p', 'B', 'c', 'b', 'B' },
+                        { 'E', 'b', 'Z', 'e', 'E' },
+                        { 'a', 'E', 'E', 'e', 'Z' },
+                }, "zap")
+        );
+        challenges.put(2, new Challenge(new char[][]{
+                        { 'a', 'B', 'c', 'D', 'e' },
+                        { 'B', 'B', 'B', 'c', 'E' },
+                        { 'e', 'Z', 'c', 'B', 'z' },
+                        { 'E', 'E', 'd', 'b', 'i' },
+                        { 'a', 'E', 'y', 'a', 'g' },
+                }, "zap")
+        );
+        challenges.put(3, new Challenge(new char[][]{
+                        { 'a', 'B', 'c', 'D', 'e' },
+                        { 'B', 'z', 'z', 'o', 'E' },
+                        { 'a', 'Z', 'a', 'B', 'e' },
+                        { 'E', 'E', 'g', 'E', 'E' },
+                        { 'a', 'E', 'e', 'A', 'e' },
+                }, "zap")
+        );
+        
         
         Runtime.getRuntime().addShutdownHook(new Thread(() -> instance = null));
     }
@@ -79,9 +110,16 @@ public class GameManager
     }
     
     
+    public Challenge getChallenge(int game)
+    {
+        return challenges.get(game);
+    }
+    
+    
     public static GameManager getInstance()
     {
         return instance;
     }
+    
     
 }

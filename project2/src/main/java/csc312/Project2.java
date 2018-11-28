@@ -8,7 +8,7 @@ import org.apache.catalina.startup.Tomcat;
 
 import java.io.File;
 
-public class Main
+public class Project2
 {
     private GameManager gameManager;
     
@@ -52,7 +52,7 @@ public class Main
     
     public static void main(String[] args)
     {
-        Main main = new Main();
+        Project2 main = new Project2();
         main.onEnable();
     }
     
