@@ -6,9 +6,13 @@ import main.java.csc312.contests.TimedContest;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class GameManager
 {
+    private static final Random RANDOM = new Random();
+    private static final int    MAX_ID = 1000;
+    
     private static GameManager instance;
     
     public static final int ROUND_TIME = 120; // in seconds
@@ -16,7 +20,7 @@ public class GameManager
     public static final int MAX_GAME   = 3;
     
     private Map<Integer, ContestBase> currentGames;
-    private int                       currentID;
+    private int                       currentID = -1;
     private TimedContest              currentGame;
     
     
@@ -62,10 +66,16 @@ public class GameManager
     
     public void newGame(int generated)
     {
+        newGame(generated, ROUND_TIME);
+    }
+    
+    
+    public void newGame(int generated, int lengthInSeconds)
+    {
         this.removeGame(this.currentID);
         
         System.out.println(MessageFormat.format("Beginning a new game with ID {0}", generated));
-        TimedContest tc = new TimedContest(ROUND_TIME);
+        TimedContest tc = new TimedContest(lengthInSeconds);
         tc.onStart();
         this.addGame(generated, tc);
     }
@@ -89,6 +99,18 @@ public class GameManager
         {
             this.currentGame.cancel();
         }
+    }
+    
+    
+    public int generateRandomID()
+    {
+        int generated = -1;
+        while (generated == -1 || GameManager.getInstance().isIDInUse(generated))
+        {
+            System.out.println(MessageFormat.format("ID #{0} is unavailable. Generating a new one.", generated));
+            generated = RANDOM.nextInt(MAX_ID);
+        }
+        return generated;
     }
     
     

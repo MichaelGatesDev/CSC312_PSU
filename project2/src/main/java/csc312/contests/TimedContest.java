@@ -27,12 +27,15 @@ public class TimedContest extends ContestBase
             this.timer = null;
         }
         this.onFinish();
+        this.setValid(false); // TODO use this?
     }
     
     
     @Override
     public void onStart()
     {
+        this.setInProgress(true);
+        this.setValid(true);
 //        System.out.println("Creating timer for game");
         timer = new Timer();
         timer.scheduleAtFixedRate(new CountdownTask(new CountdownCallback()

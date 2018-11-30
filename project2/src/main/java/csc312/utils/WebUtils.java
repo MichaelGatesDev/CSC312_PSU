@@ -1,4 +1,4 @@
-package main.java.csc312;
+package main.java.csc312.utils;
 
 import javax.servlet.http.HttpServletRequest;
 

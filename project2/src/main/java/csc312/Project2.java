@@ -14,10 +14,14 @@ public class Project2
     private GameManager gameManager;
     
     
-    void onEnable()
+    Project2()
     {
         this.gameManager = new GameManager();
-        
+    }
+    
+    
+    void onEnable()
+    {
         try
         {
             this.startServer();

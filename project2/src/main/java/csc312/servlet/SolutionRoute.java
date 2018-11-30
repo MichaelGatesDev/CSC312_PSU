@@ -1,7 +1,7 @@
 package main.java.csc312.servlet;
 
 import main.java.csc312.GameManager;
-import main.java.csc312.WebUtils;
+import main.java.csc312.utils.WebUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;

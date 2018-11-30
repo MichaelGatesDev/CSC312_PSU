@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.Random;
 
 /*
     1-Starting a contest: an user must start a contest, before requesting a letter, with  a url such as :
@@ -27,21 +25,13 @@ import java.util.Random;
  */
 public class NewContestRoute extends HttpServlet
 {
-    private static final Random RANDOM = new Random();
-    private static final int    MAX_ID = 1000;
-    
     private int requests = 0;
     
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        int generated = -1;
-        while (generated == -1 || GameManager.getInstance().isIDInUse(generated))
-        {
-            System.out.println(MessageFormat.format("Game ID #{0} in use, so generating a new one.", generated));
-            generated = RANDOM.nextInt(MAX_ID);
-        }
+        int generated = GameManager.getInstance().generateRandomID();
         GameManager.getInstance().newGame(generated);
         
         resp.setStatus(HttpServletResponse.SC_OK);

@@ -10,7 +10,7 @@ import java.io.IOException;
 @SuppressWarnings("Duplicates")
 public class WordsRoute extends HttpServlet
 {
-    private static final String[] WORDS = {
+    public static final String[] WORDS = {
             "zap",
             "zep",
             "zip",
