@@ -45,7 +45,7 @@ public class ProjectTest
         
         // create new game
         int generated = gm.generateRandomID();
-        gm.newGame(generated);
+        gm.newContest(generated);
         
         // game has been created so its id should not be -1
         Assert.assertNotEquals(gm.getCurrentID(), -1);
@@ -77,7 +77,7 @@ public class ProjectTest
         GameManager gm = new GameManager();
         // create new game
         int generated = gm.generateRandomID();
-        gm.newGame(generated, 3);
+        gm.newContest(generated, 3);
         ContestBase cb = gm.getCurrentContest();
         
         Assert.assertTrue(cb.isInProgress());
@@ -247,7 +247,7 @@ public class ProjectTest
         gm.addScore(idF, 300);
         gm.addScore(idG, 500);
         
-        LinkedHashMap<Integer, Integer> scoresSorted = gm.getScoresAscending();
+        LinkedHashMap<Integer, Integer> scoresSorted = gm.getScoresSorted();
         
         Object[] values = scoresSorted.values().toArray();
         Assert.assertEquals(values[0], 10);

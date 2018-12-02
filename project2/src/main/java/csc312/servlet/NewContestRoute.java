@@ -31,7 +31,7 @@ public class NewContestRoute extends HttpServlet
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
         int generated = GameManager.getInstance().generateRandomID();
-        GameManager.getInstance().newGame(generated);
+        GameManager.getInstance().newContest(generated);
         
         resp.setStatus(HttpServletResponse.SC_OK);
         

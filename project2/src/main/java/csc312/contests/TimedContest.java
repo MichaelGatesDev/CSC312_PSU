@@ -7,6 +7,9 @@ import main.java.csc312.countdowns.CountdownTask;
 import java.text.MessageFormat;
 import java.util.Timer;
 
+/**
+ * A timed version of {@link ContestBase}
+ */
 public class TimedContest extends ContestBase
 {
     private int   totalTimeInSecs;
@@ -15,12 +18,18 @@ public class TimedContest extends ContestBase
     private int   letterRequests;
     
     
+    /**
+     * @param totalTime The length of the contest timer
+     */
     public TimedContest(int totalTime)
     {
         this.totalTimeInSecs = totalTime;
     }
     
     
+    /**
+     * Cancels the contest. Sets the contest to invalid.
+     */
     public void cancel()
     {
         if (timer != null)
@@ -75,24 +84,36 @@ public class TimedContest extends ContestBase
     }
     
     
+    /**
+     * Adds to the number of letter requests
+     */
     public void incrementRequests()
     {
         this.letterRequests++;
     }
     
     
+    /**
+     * @return Returns the length of the contest
+     */
     private int getTotalTimeInSecs()
     {
         return totalTimeInSecs;
     }
     
     
+    /**
+     * @return Returns how much time is left in the contest
+     */
     private int getRemainingTimeInSecs()
     {
         return remainingTimeInSecs;
     }
     
     
+    /**
+     * @return Returns how much time has elapsed in the contest
+     */
     public int getElapsedTime()
     {
         return getTotalTimeInSecs() - getRemainingTimeInSecs();

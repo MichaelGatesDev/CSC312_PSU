@@ -19,7 +19,7 @@ public class GameManager
     
     private Map<Integer, Challenge> challenges;
     
-    private Map<Integer, TimedContest> currentGames;
+    private Map<Integer, TimedContest> currentContests;
     private int                        currentID = -1;
     private TimedContest               currentGame;
     
@@ -29,9 +29,9 @@ public class GameManager
     GameManager()
     {
         instance = this;
-        this.currentGames = new HashMap<>();
         
-        
+        // -- BEGIN --
+        // create challenges
         challenges = new HashMap<>();
         challenges.put(1, new Challenge(new char[][]{
                         // A    B    C    D    E
@@ -58,51 +58,83 @@ public class GameManager
                         { 'a', 'E', 'e', 'A', 'e' },
                 }, "zag")
         );
+        // -- END --
         
+        // instantiate collections
+        this.currentContests = new HashMap<>();
         this.scores = new HashMap<>();
         
+        // kills the singleton because the GC may not collect it
         Runtime.getRuntime().addShutdownHook(new Thread(() -> instance = null));
     }
     
     
-    public void newGame(int generated)
+    /**
+     * Creates a new contest with the specified contest ID
+     *
+     * @param generated The ID to be used for the new contest
+     */
+    public void newContest(int generated)
     {
-        newGame(generated, ROUND_TIME);
+        newContest(generated, ROUND_TIME);
     }
     
     
-    public void newGame(int generated, int lengthInSeconds)
+    /**
+     * Creates a new contest with the specified contest ID
+     *
+     * @param generated       The ID to be used for the new contest
+     * @param lengthInSeconds The amount of time for the contest
+     */
+    public void newContest(int generated, int lengthInSeconds)
     {
-        this.removeGame(this.currentID);
+        // if there exists a contest with the current ID, remove it
+        this.removeContest(this.currentID);
         
         System.out.println(MessageFormat.format("Beginning a new game with ID {0}", generated));
         TimedContest tc = new TimedContest(lengthInSeconds);
         tc.onStart();
-        this.addGame(generated, tc);
+        this.addContest(generated, tc);
     }
     
     
-    private void addGame(int id, TimedContest c)
+    /**
+     * Registers a contest
+     *
+     * @param id The ID of the contest
+     * @param c  The {@link TimedContest} object
+     */
+    private void addContest(int id, TimedContest c)
     {
         this.currentID = id;
         this.currentGame = c;
-        this.currentGames.put(id, c);
+        this.currentContests.put(id, c);
     }
     
     
-    private void removeGame(int id)
+    /**
+     * Unregisters a contest
+     *
+     * @param id The ID of the contest
+     */
+    private void removeContest(int id)
     {
-        if (isIDInUse(this.currentID))
+        // make sure the ID is actually in use, even though error-checking is implemented in hashmaps
+        if (this.isIDInUse(this.currentID))
         {
-            this.currentGames.remove(id);
-        }
-        if (this.currentGame != null)
-        {
-            this.currentGame.cancel();
+            // cancel the contest
+            this.currentContests.get(currentID).cancel();
+            // remove the contest
+            this.currentContests.remove(id);
         }
     }
     
     
+    /**
+     * Generates a random ID number
+     *
+     * @return Returns a randomly generated number within game constraints
+     */
     public int generateRandomID()
     {
         int generated = -1;
@@ -115,6 +147,12 @@ public class GameManager
     }
     
     
+    /**
+     * Adds a score
+     *
+     * @param contestID   The contest ID that the score was achieved in
+     * @param elapsedTime The total time that it took to complete the contest
+     */
     public void addScore(int contestID, int elapsedTime)
     {
         scores.put(contestID, elapsedTime);
@@ -122,7 +160,12 @@ public class GameManager
     }
     
     
-    public LinkedHashMap<Integer, Integer> getScoresAscending()
+    /**
+     * Takes the scores {@link HashMap} and sorts it by value, smallest->largest
+     *
+     * @return A a sorted {@link LinkedHashMap}
+     */
+    public LinkedHashMap<Integer, Integer> getScoresSorted()
     {
         LinkedHashMap<Integer, Integer> sortedMap = scores.entrySet()
                 .stream()
@@ -136,30 +179,57 @@ public class GameManager
     }
     
     
-    public boolean isIDInUse(int n)
+    /**
+     * Checks if a contest ID is in use
+     *
+     * @param id The contest ID
+     *
+     * @return Returns true if the contest ID is currently in use
+     */
+    public boolean isIDInUse(int id)
     {
-        return this.currentGames.containsKey(n);
+        return this.currentContests.containsKey(id);
     }
     
     
+    /**
+     * Gets the current contest's ID
+     *
+     * @return Returns the current contest ID
+     */
     public int getCurrentID()
     {
         return this.currentID;
     }
     
     
+    /**
+     * Gets the current contest
+     *
+     * @return Returns the current {@link TimedContest}
+     */
     public TimedContest getCurrentContest()
     {
-        return this.currentGames.get(this.currentID);
+        return this.currentContests.get(this.currentID);
     }
     
     
+    /**
+     * Gets the challenge for the specified game
+     *
+     * @param game The game #
+     *
+     * @return The challenge for the specified game #
+     */
     public Challenge getChallenge(int game)
     {
         return challenges.get(game);
     }
     
     
+    /**
+     * @return Singleton instance
+     */
     public static GameManager getInstance()
     {
         return instance;

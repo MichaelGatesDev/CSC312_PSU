@@ -15,7 +15,7 @@ public class TopScoreRoute extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        LinkedHashMap<Integer, Integer> scores = GameManager.getInstance().getScoresAscending();
+        LinkedHashMap<Integer, Integer> scores = GameManager.getInstance().getScoresSorted();
         
         ServletOutputStream out = resp.getOutputStream();
         
