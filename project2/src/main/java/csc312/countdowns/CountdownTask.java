@@ -14,7 +14,7 @@ public class CountdownTask extends TimerTask
     
     
     /**
-     * @param countdownCallback
+     * @param countdownCallback The callback for the countdown
      * @param minTime           The minimum possible time (this is usually 0)
      * @param totalTime         The total amount of time to run the task
      */
@@ -28,7 +28,7 @@ public class CountdownTask extends TimerTask
     
     
     /**
-     * @param countdownCallback
+     * @param countdownCallback The callback for the countdown
      * @param totalTime         The total amount of time to run the task
      */
     public CountdownTask(CountdownCallback countdownCallback, int totalTime)

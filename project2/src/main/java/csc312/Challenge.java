@@ -2,8 +2,8 @@ package main.java.csc312;
 
 public class Challenge
 {
-    private char[][] grid;
-    private String   solution;
+    private final char[][] grid;
+    private final String   solution;
     
     
     /**

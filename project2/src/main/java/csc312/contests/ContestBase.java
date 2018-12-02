@@ -11,7 +11,7 @@ public abstract class ContestBase implements Contest
      *
      * @param inProgress {@link Boolean} value for the state (true means in-progress, false means not in-progress)
      */
-    public void setInProgress(boolean inProgress)
+    void setInProgress(boolean inProgress)
     {
         this.inProgress = inProgress;
     }
@@ -22,7 +22,7 @@ public abstract class ContestBase implements Contest
      *
      * @param valid {@link Boolean} value for the validity (true means valid, false means not valid)
      */
-    public void setValid(boolean valid)
+    void setValid(boolean valid)
     {
         this.valid = valid;
     }

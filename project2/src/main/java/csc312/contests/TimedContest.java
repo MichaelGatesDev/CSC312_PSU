@@ -12,10 +12,10 @@ import java.util.Timer;
  */
 public class TimedContest extends ContestBase
 {
-    private int   totalTimeInSecs;
-    private int   remainingTimeInSecs;
-    private Timer timer;
-    private int   letterRequests;
+    private final int   totalTimeInSecs;
+    private       int   remainingTimeInSecs;
+    private       Timer timer;
+    private       int   letterRequests;
     
     
     /**

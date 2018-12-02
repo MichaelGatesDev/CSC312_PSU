@@ -13,17 +13,16 @@ public class GameManager
     
     private static GameManager instance;
     
-    public static final int ROUND_TIME = 120; // in seconds
-    public static final int MIN_GAME   = 1;
-    public static final int MAX_GAME   = 3;
+    private static final int ROUND_TIME = 120; // in seconds
+    public static final  int MIN_GAME   = 1;
+    public static final  int MAX_GAME   = 3;
     
-    private Map<Integer, Challenge> challenges;
+    private final Map<Integer, Challenge> challenges;
     
-    private Map<Integer, TimedContest> currentContests;
-    private int                        currentID = -1;
-    private TimedContest               currentGame;
+    private final Map<Integer, TimedContest> currentContests;
+    private       int                        currentID = -1;
     
-    private Map<Integer, Integer> scores;
+    private final Map<Integer, Integer> scores;
     
     
     GameManager()
@@ -107,7 +106,7 @@ public class GameManager
     private void addContest(int id, TimedContest c)
     {
         this.currentID = id;
-        this.currentGame = c;
+        TimedContest currentGame = c;
         this.currentContests.put(id, c);
     }
     
@@ -167,7 +166,7 @@ public class GameManager
      */
     public LinkedHashMap<Integer, Integer> getScoresSorted()
     {
-        LinkedHashMap<Integer, Integer> sortedMap = scores.entrySet()
+        return scores.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue())
                 .limit(5)
@@ -175,7 +174,6 @@ public class GameManager
                         Map.Entry::getKey, Map.Entry::getValue,
                         (e1, e2) -> e1, LinkedHashMap::new
                 ));
-        return sortedMap;
     }
     
     

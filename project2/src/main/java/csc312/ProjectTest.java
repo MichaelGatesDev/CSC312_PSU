@@ -52,16 +52,15 @@ public class ProjectTest
         // game has been created so it should not be null
         Assert.assertNotNull(gm.getCurrentContest());
         
-        ContestBase cb = gm.getCurrentContest();
+        TimedContest tc = gm.getCurrentContest();
         
         // the contest just started so it should be valid
-        Assert.assertTrue(cb.isValid());
+        Assert.assertTrue(tc.isValid());
         
         // the contest just started so it should be in progress
-        Assert.assertTrue(cb.isInProgress());
+        Assert.assertTrue(tc.isInProgress());
         
         // cancel the game
-        TimedContest tc = (TimedContest) cb;
         tc.cancel();
         Assert.assertFalse(tc.isInProgress());
         Assert.assertFalse(tc.isValid()); // TODO is this worth keeping?

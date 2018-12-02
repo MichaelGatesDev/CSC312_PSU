@@ -1,6 +1,6 @@
 package main.java.csc312.contests;
 
-public interface Contest
+interface Contest
 {
     /**
      * Called when the contest begins

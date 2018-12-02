@@ -7,18 +7,17 @@ import org.apache.catalina.startup.Tomcat;
 
 import java.io.File;
 
-public class Project2
+class Project2
 {
-    private GameManager gameManager;
     
     
-    Project2()
+    private Project2()
     {
-        this.gameManager = new GameManager();
+        GameManager gameManager = new GameManager();
     }
     
     
-    void onEnable()
+    private void onEnable()
     {
         try
         {
