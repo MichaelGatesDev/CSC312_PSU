@@ -1,12 +1,10 @@
 package main.java.csc312;
 
-import main.java.csc312.contests.ContestBase;
 import main.java.csc312.contests.TimedContest;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameManager
 {
@@ -19,12 +17,13 @@ public class GameManager
     public static final int MIN_GAME   = 1;
     public static final int MAX_GAME   = 3;
     
-    private Map<Integer, ContestBase> currentGames;
-    private int                       currentID = -1;
-    private TimedContest              currentGame;
-    
-    
     private Map<Integer, Challenge> challenges;
+    
+    private Map<Integer, TimedContest> currentGames;
+    private int                        currentID = -1;
+    private TimedContest               currentGame;
+    
+    private Map<Integer, Integer> scores;
     
     
     GameManager()
@@ -49,7 +48,7 @@ public class GameManager
                         { 'e', 'Z', 'c', 'B', 'z' },
                         { 'E', 'E', 'd', 'b', 'i' },
                         { 'a', 'E', 'y', 'a', 'g' },
-                }, "zap")
+                }, "zig")
         );
         challenges.put(3, new Challenge(new char[][]{
                         { 'a', 'B', 'c', 'D', 'e' },
@@ -57,9 +56,10 @@ public class GameManager
                         { 'a', 'Z', 'a', 'B', 'e' },
                         { 'E', 'E', 'g', 'E', 'E' },
                         { 'a', 'E', 'e', 'A', 'e' },
-                }, "zap")
+                }, "zag")
         );
         
+        this.scores = new HashMap<>();
         
         Runtime.getRuntime().addShutdownHook(new Thread(() -> instance = null));
     }
@@ -115,6 +115,27 @@ public class GameManager
     }
     
     
+    public void addScore(int contestID, int elapsedTime)
+    {
+        scores.put(contestID, elapsedTime);
+        System.out.println("Added contest " + contestID + " with time " + elapsedTime);
+    }
+    
+    
+    public LinkedHashMap<Integer, Integer> getScoresAscending()
+    {
+        LinkedHashMap<Integer, Integer> sortedMap = scores.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue())
+                .limit(5)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey, Map.Entry::getValue,
+                        (e1, e2) -> e1, LinkedHashMap::new
+                ));
+        return sortedMap;
+    }
+    
+    
     public boolean isIDInUse(int n)
     {
         return this.currentGames.containsKey(n);
@@ -127,7 +148,7 @@ public class GameManager
     }
     
     
-    public ContestBase getCurrentGame()
+    public TimedContest getCurrentContest()
     {
         return this.currentGames.get(this.currentID);
     }
@@ -143,6 +164,5 @@ public class GameManager
     {
         return instance;
     }
-    
     
 }

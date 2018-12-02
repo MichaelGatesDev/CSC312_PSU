@@ -28,4 +28,7 @@ public abstract class ContestBase implements Contest
     {
         return valid;
     }
+    
+    
+    public abstract int getTotalLetterRequests();
 }

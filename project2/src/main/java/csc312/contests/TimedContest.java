@@ -9,8 +9,10 @@ import java.util.Timer;
 
 public class TimedContest extends ContestBase
 {
-    private long  totalTimeInSecs;
+    private int   totalTimeInSecs;
+    private int   remainingTimeInSecs;
     private Timer timer;
+    private int   letterRequests;
     
     
     public TimedContest(int totalTime)
@@ -48,8 +50,9 @@ public class TimedContest extends ContestBase
             
             
             @Override
-            public void onTick(long remainingTime)
+            public void onTick(int remainingTime)
             {
+                remainingTimeInSecs = remainingTime;
                 System.out.println(MessageFormat.format("Game {0} has {1} seconds remaining", GameManager.getInstance().getCurrentID(), remainingTime));
             }
             
@@ -72,4 +75,33 @@ public class TimedContest extends ContestBase
     }
     
     
+    public void incrementRequests()
+    {
+        this.letterRequests++;
+    }
+    
+    
+    private int getTotalTimeInSecs()
+    {
+        return totalTimeInSecs;
+    }
+    
+    
+    private int getRemainingTimeInSecs()
+    {
+        return remainingTimeInSecs;
+    }
+    
+    
+    public int getElapsedTime()
+    {
+        return getTotalTimeInSecs() - getRemainingTimeInSecs();
+    }
+    
+    
+    @Override
+    public int getTotalLetterRequests()
+    {
+        return letterRequests;
+    }
 }

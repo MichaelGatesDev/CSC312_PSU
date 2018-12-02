@@ -5,7 +5,7 @@ public interface CountdownCallback
     
     void onBegin();
     
-    void onTick(long remainingTime);
+    void onTick(int remainingTime);
     
     void onComplete();
     

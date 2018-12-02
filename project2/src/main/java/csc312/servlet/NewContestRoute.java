@@ -2,7 +2,6 @@ package main.java.csc312.servlet;
 
 import main.java.csc312.GameManager;
 
-import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +28,7 @@ public class NewContestRoute extends HttpServlet
     
     
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
         int generated = GameManager.getInstance().generateRandomID();
         GameManager.getInstance().newGame(generated);
@@ -39,7 +38,6 @@ public class NewContestRoute extends HttpServlet
         ServletOutputStream out = resp.getOutputStream();
         
         out.write((generated + "").getBytes());
-        out.write(("Total requests: " + requests).getBytes());
         out.flush();
         out.close();
         

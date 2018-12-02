@@ -1,8 +1,6 @@
 package main.java.csc312;
 
-import main.java.csc312.servlet.NewContestRoute;
-import main.java.csc312.servlet.WordFinderRoute;
-import main.java.csc312.servlet.WordsRoute;
+import main.java.csc312.servlet.*;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
@@ -52,6 +50,14 @@ public class Project2
         // /words
         Tomcat.addServlet(ctx, "words", new WordsRoute());
         ctx.addServletMapping("/words", "words");
+        
+        // /solution
+        Tomcat.addServlet(ctx, "solution", new SolutionRoute());
+        ctx.addServletMapping("/solution", "solution");
+        
+        // /topscore
+        Tomcat.addServlet(ctx, "topscore", new TopScoreRoute());
+        ctx.addServletMapping("/topscore", "topscore");
         
         
         tomcat.start();

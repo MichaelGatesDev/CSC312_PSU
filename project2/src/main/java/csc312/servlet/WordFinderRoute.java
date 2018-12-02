@@ -2,6 +2,7 @@ package main.java.csc312.servlet;
 
 import main.java.csc312.Challenge;
 import main.java.csc312.GameManager;
+import main.java.csc312.contests.TimedContest;
 import main.java.csc312.utils.GameUtils;
 import main.java.csc312.utils.WebUtils;
 
@@ -22,12 +23,26 @@ public class WordFinderRoute extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        int contest = WebUtils.getIntParamChecked(req, "contest");
-        if (contest == -1 || !GameManager.getInstance().isIDInUse(contest))
+        int contestID = WebUtils.getIntParamChecked(req, "contest");
+        if (contestID == -1 || !GameManager.getInstance().isIDInUse(contestID))
         {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
+        
+        TimedContest contest = GameManager.getInstance().getCurrentContest();
+        if (contest == null || !contest.isValid())
+        {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+        
+        if (!contest.isInProgress())
+        {
+            resp.setStatus(HttpServletResponse.SC_GONE);
+            return;
+        }
+        
         
         int game = WebUtils.getIntParamChecked(req, "game");
         if (game < GameManager.MIN_GAME || game > GameManager.MAX_GAME)
@@ -72,6 +87,7 @@ public class WordFinderRoute extends HttpServlet
         out.flush();
         out.close();
         
+        contest.incrementRequests();
     }
     
 }

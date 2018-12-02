@@ -8,9 +8,9 @@ import java.util.TimerTask;
 public class CountdownTask extends TimerTask
 {
     private final CountdownCallback countdownCallback;
-    private final long              minTime;
-    private final long              totalTime;
-    private       long              remainingTime; // the amount of time remaining in the countdown
+    private final int               minTime;
+    private final int               totalTime;
+    private       int               remainingTime; // the amount of time remaining in the countdown
     
     
     /**
@@ -18,7 +18,7 @@ public class CountdownTask extends TimerTask
      * @param minTime           The minimum possible time (this is usually 0)
      * @param totalTime         The total amount of time to run the task
      */
-    public CountdownTask(CountdownCallback countdownCallback, long minTime, long totalTime)
+    public CountdownTask(CountdownCallback countdownCallback, int minTime, int totalTime)
     {
         this.countdownCallback = countdownCallback;
         this.minTime = minTime;
@@ -31,7 +31,7 @@ public class CountdownTask extends TimerTask
      * @param countdownCallback
      * @param totalTime         The total amount of time to run the task
      */
-    public CountdownTask(CountdownCallback countdownCallback, long totalTime)
+    public CountdownTask(CountdownCallback countdownCallback, int totalTime)
     {
         this.countdownCallback = countdownCallback;
         this.minTime = 0;
