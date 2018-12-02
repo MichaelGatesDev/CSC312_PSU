@@ -2,6 +2,7 @@ package main.java.csc312.servlet;
 
 import main.java.csc312.Challenge;
 import main.java.csc312.GameManager;
+import main.java.csc312.utils.GameUtils;
 import main.java.csc312.utils.WebUtils;
 
 import javax.servlet.ServletOutputStream;
@@ -14,9 +15,6 @@ import java.io.IOException;
 @SuppressWarnings("Duplicates")
 public class WordFinderRoute extends HttpServlet
 {
-    private static final char[] COLUMNS = { 'A', 'B', 'C', 'D', 'E' };
-    
-    
     /*
     http://localhost:8080/wordfinder?contest=<contest id>&game=<1 to 3>&pos=<column><row>
     http://localhost:8080/wordfinder?contest=822&game=1&pos=A1
@@ -49,7 +47,7 @@ public class WordFinderRoute extends HttpServlet
         char col = rawPos.charAt(0);
         int row = Integer.parseInt(rawPos.charAt(1) + "");
         
-        int colEquiv = getColEquiv(col);
+        int colEquiv = GameUtils.getColEquiv(col);
         if (colEquiv < 1 || row < 1 || colEquiv > 5 || row > 5)
         {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -69,22 +67,11 @@ public class WordFinderRoute extends HttpServlet
             return;
         }
         
-        out.write((challenge.getGrid()[colEquiv - 1][row - 1] + "").getBytes());
+        char c = challenge.getCharAt(row - 1, colEquiv - 1);
+        out.write((c + "").getBytes());
         out.flush();
         out.close();
         
     }
     
-    
-    private int getColEquiv(char c)
-    {
-        for (int i = 0; i < COLUMNS.length; i++)
-        {
-            if (COLUMNS[i] == c)
-            {
-                return i + 1;
-            }
-        }
-        return -1;
-    }
 }

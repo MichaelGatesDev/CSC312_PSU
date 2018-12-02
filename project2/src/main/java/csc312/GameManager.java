@@ -35,11 +35,12 @@ public class GameManager
         
         challenges = new HashMap<>();
         challenges.put(1, new Challenge(new char[][]{
-                        { 'z', 'B', 'C', 'D', 'a' },
-                        { 'a', 'b', 'B', 'b', 'E' },
-                        { 'p', 'B', 'c', 'b', 'B' },
-                        { 'E', 'b', 'Z', 'e', 'E' },
-                        { 'a', 'E', 'E', 'e', 'Z' },
+                        // A    B    C    D    E
+                        { 'z', 'B', 'C', 'D', 'a' }, // 1
+                        { 'a', 'b', 'B', 'b', 'E' }, // 2
+                        { 'p', 'B', 'c', 'b', 'B' }, // 3
+                        { 'E', 'b', 'Z', 'e', 'E' }, // 4
+                        { 'a', 'E', 'E', 'e', 'Z' }, // 5
                 }, "zap")
         );
         challenges.put(2, new Challenge(new char[][]{

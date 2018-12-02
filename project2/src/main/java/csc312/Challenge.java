@@ -6,16 +6,16 @@ public class Challenge
     private String   solution;
     
     
-    public Challenge(char[][] grid, String solution)
+    Challenge(char[][] grid, String solution)
     {
         this.grid = grid;
         this.solution = solution;
     }
     
     
-    public char[][] getGrid()
+    public char getCharAt(int row, int col)
     {
-        return grid;
+        return grid[row][col];
     }
     
     
